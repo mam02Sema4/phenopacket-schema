@@ -12,31 +12,29 @@ public class FhhPedigreeTest {
 
     @Test
     void trio() throws InvalidProtocolBufferException {
-        FhhIndividual proband = FhhIndividual.newBuilder().setID("proband").build();
-        FhhIndividual mother = FhhIndividual.newBuilder().setID("mother")
+        FhhIndividual proband = FhhIndividual.newBuilder().setId("proband").build();
+        FhhIndividual mother = FhhIndividual.newBuilder().setId("mother")
                 .setSex(ontologyClass("", "")) // what ontology?
                 .build();
-        FhhIndividual father = FhhIndividual.newBuilder().setID("father")
+        FhhIndividual father = FhhIndividual.newBuilder().setId("father")
                 .setSex(ontologyClass("", "")) // what ontology?
                 .build();
 
-        FhhRelationship probandMotherRelationship = FhhRelationship.newBuilder().setId("M-P")
-                .setIndividual("mother")
+        FhhRelationship probandMotherRelationship = FhhRelationship.newBuilder().setIndividual("proband")
                 .setRelation(ontologyClass("REL:003", "biological parent"))
-                .setRelative("proband")
+                .setRelative("mother")
                 .build();
 
-        FhhRelationship probandFatherRelationship = FhhRelationship.newBuilder().setId("F-P")
-                .setIndividual("father")
+        FhhRelationship probandFatherRelationship = FhhRelationship.newBuilder().setIndividual("proband")
                 .setRelation(ontologyClass("REL:003", "biological parent"))
-                .setRelative("proband")
+                .setRelative("father")
                 .build();
 
         FhhPedgree fhhPedgree = FhhPedgree.newBuilder()
                 .setProband("proband")
-                .setConsultand("someone")
-                .setCollectedAt("2021-02-18") // dateCollected ?
-                .setReasonCollected(ontologyClass("OMIM:101600", "Apert syndrome")) // this seems odd
+                .setConsultand("mother")
+                .setDate("2021-02-18")
+                .setReason(ontologyClass("OMIM:101600", "Apert syndrome"))
                 .addIndividuals(proband)
                 .addIndividuals(mother)
                 .addIndividuals(father)

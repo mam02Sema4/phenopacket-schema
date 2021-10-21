@@ -8,19 +8,19 @@ option java_multiple_files = true;
 option java_package = "org.ga4gh.pedigree.v1";
 
 // Based on draft version of Pedigree conceptual model:
-// https://github.com/ga4gh-cp/pedigree/blob/d7ba3172aa4e4b36f96641d990bafd6600f3c509/model.md
+// https://github.com/GA4GH-Pedigree-Standard/pedigree/blob/master/model.md
 
-message FhhPedgree {
+message Pedigree {
     string proband = 1; // ID optional 	id of Individual that is the index case for the family
     string consultand = 2; //  	ID 	optional 	id of Individual that is the focus of the current analysis
     string date = 3; //  	Date 	optional 	the date the pedigree was collected, as ISO full or partial date, i.e. YYYY, YYYY-MM, or YYYY-MM-DD
     org.phenopackets.schema.v1.core.OntologyClass reason = 4; //  	Concept 	optional 	the health condition being investigated in the family; if any Individual has the affected property defined, it refers to this condition
-    repeated FhhIndividual individuals = 5;
-    repeated FhhRelationship relationships = 6;
+    repeated Individual individuals = 5;
+    repeated Relationship relationships = 6;
 }
 
 // Fhh version of Person
-message FhhIndividual {
+message Individual {
     string id = 1;  //	internal ID 	required 	logical id
     string name = 2; //	name of the individual
     repeated string identifiers = 3; 	// list of string 	optional 	external identifiers for the individual
@@ -30,12 +30,13 @@ message FhhIndividual {
     bool affected = 7; //	boolean
 }
 
-message FhhRelationship {
-    string individual = 2; //	ID required 	identifier of the subject Individual; equivalent to the FHIR "Scoping Individual" and the Biolink "Subject"
-    org.phenopackets.schema.v1.core.OntologyClass relation = 4; //	Concept 	required 	the relationship the `relative` has to the `individual` (e.g., if the `relative` is the `individual`'s parent, then relation would be Parent); terms should come from the relationship terminology
+message Relationship {
+    string subject = 2; //	ID required 	identifier of the subject Individual; equivalent to the FHIR "Scoping Individual" and the Biolink "Subject"
+    org.phenopackets.schema.v1.core.OntologyClass relationship = 4; //	Concept 	required 	the relationship the `relative` has to the `individual` (e.g., if the `relative` is the `individual`'s parent, then relation would be Parent); terms should come from the relationship terminology
     string relative = 3; //	ID 	required 	identifier of the relative Individual; equivalent to the FHIR "Player" and the Biolink "Object"
 }
 
-message FhhIdentifier {
+message Identifier {
     string id = 1; //	ID 	required 	an external identifier such as a medical record number, participant id, or insurance number;  URI/CURIE is preferred
+    string label = 2; // a human-readable label for the identifier
 }
